@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/estils.css">
-    <link rel="stylesheet" href="./js/script.js">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="./js/jquery-4.0.0.js"></script>
+    <script src="./js/p100-memoria.js"></script>
+
     <title>Practica1</title>
 </head>
 
@@ -14,18 +16,27 @@
         <h1>Memory Pokemón Game</h1>
     </header>
 
-    <div id="tauler">
-        <div class="carta" id="f1c1">
-            <div class="cara darrera"></div>
-            <div class="cara davant"></div>
+    <div>
+        <div id="info">
+            <p>Clics: <span id="contador">0</span></p>
         </div>
 
+        <div id="contador">
+            <button onclick="iniciarJoc(2,2)">2x2</button>
+            <button onclick="iniciarJoc(4,4)">4x4</button>
+        </div>
 
+        <div id="tauler"></div>
     </div>
 
     <footer>
         <p>Fes clic en una carta per donar-li la volta</p>
     </footer>
+
+
+
 </body>
+
+</html>
 
 </html>

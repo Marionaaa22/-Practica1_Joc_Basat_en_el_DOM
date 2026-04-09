@@ -1,36 +1,123 @@
+var nFiles, nColumnes;
 var ampladaCarta, alcadaCarta;
-var separacioH=20, separacioV=20;
-var nFiles=1, nColumnes=1;
+var separacio = 10;
 
-var jocCartes = [
-    'carta14', 
-];
+var cartes = [];
+var girades = [];
+var clics = 0;
+var maxClics;
 
+$(function () {
 
-$(function(){
-    var f, c, carta;
-    f=1;
-    c=1;
-
- 
-
-    ampladaCarta=$(".carta").width(); 
-    alcadaCarta=$(".carta").height();
-    // mida del tauler
-    $("#tauler").css({
-        "width" : "120px",
-        "height": "160px"
-    });
-
-    carta=$("#f"+f+"c"+c);
-    carta.css({
-        "left" :  ((c-1)*(ampladaCarta+separacioH)+separacioH)+"px",
-        "top"  :  ((f-1)*(alcadaCarta+separacioV) +separacioV)+"px"
-    });
-    carta.find(".davant").addClass(jocCartes.pop());
-   
-    $(".carta").on("click",function(){
-        $(this).toggleClass("carta-girada");
-    });
-
+    iniciarJoc(2,2);
 });
+
+function iniciarJoc(files, columnes) {
+
+    nFiles = files;
+    nColumnes = columnes;
+
+    clics = 0;
+    $("#contador").text(clics);
+
+    generarTauler();
+    generarCartes();
+    posicionarCartes();
+}
+
+function generarTauler() {
+    $("#tauler").empty();
+
+    for (let f = 0; f < nFiles; f++) {
+        for (let c = 0; c < nColumnes; c++) {
+
+            let carta = $(`
+                <div class="carta">
+                    <div class="cara darrera"></div>
+                    <div class="cara davant"></div>
+                </div>
+            `);
+
+            $("#tauler").append(carta);
+        }
+    }
+
+    ampladaCarta = $(".carta").width();
+    alcadaCarta = $(".carta").height();
+
+    let ample = nColumnes * (ampladaCarta + separacio);
+    let alt = nFiles * (alcadaCarta + separacio);
+
+    $("#tauler").css({
+        width: ample,
+        height: alt
+    });
+
+    $(".carta").on("click", girarCarta);
+}
+
+function generarCartes() {
+
+    let total = nFiles * nColumnes;
+    let parelles = total / 2;
+
+    let base = [];
+
+    for (let i = 1; i <= parelles; i++) {
+        base.push("carta" + i);
+        base.push("carta" + i);
+    }
+
+    cartes = base.sort(() => Math.random() - 0.5);
+}
+
+function posicionarCartes() {
+
+    $(".carta").each(function (index) {
+
+        let fila = Math.floor(index / nColumnes);
+        let col = index % nColumnes;
+
+        $(this).css({
+            left: col * (ampladaCarta + separacio),
+            top: fila * (alcadaCarta + separacio)
+        });
+
+        $(this).find(".davant").addClass(cartes[index]);
+    });
+}
+
+function girarCarta() {
+
+    if ($(this).hasClass("carta-girada") || girades.length === 2) return;
+
+    $(this).addClass("carta-girada");
+    girades.push($(this));
+
+    clics++;
+    $("#contador").text(clics);
+
+    if (girades.length === 2) {
+        comprobarPareja();
+    }
+}
+
+function comprobarPareja() {
+
+    let c1 = girades[0].find(".davant").attr("class");
+    let c2 = girades[1].find(".davant").attr("class");
+
+    if (c1 === c2) {
+        setTimeout(() => {
+            girades[0].fadeOut();
+            girades[1].fadeOut();
+            girades = [];
+        }, 500);
+    } else {
+        setTimeout(() => {
+            girades[0].removeClass("carta-girada");
+            girades[1].removeClass("carta-girada");
+            girades = [];
+        }, 800);
+    }
+}
