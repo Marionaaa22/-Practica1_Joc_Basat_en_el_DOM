@@ -32,7 +32,7 @@ function generarTauler() {
         for (let c = 0; c < nColumnes; c++) {
 
             let carta = $(`
-                <div class="carta">
+                <div class="carta" id = "f1c1">
                     <div class="cara darrera"></div>
                     <div class="cara davant"></div>
                 </div>
@@ -73,17 +73,18 @@ function generarCartes() {
 
 function posicionarCartes() {
 
-    $(".carta").each(function (index) {
-
-        let fila = Math.floor(index / nColumnes);
-        let col = index % nColumnes;
-
+    let index = 0;
+    $(".carta").each(function() {
+        let f = Math.floor(index / nColumnes) + 1;
+        let c = (index % nColumnes) + 1;
+        
         $(this).css({
-            left: col * (ampladaCarta + separacio),
-            top: fila * (alcadaCarta + separacio)
+            "left" :  ((c-1)*(ampladaCarta+separacio)+separacio)+"px",
+            "top"  :  ((f-1)*(alcadaCarta+separacio)+separacio)+"px"
         });
 
         $(this).find(".davant").addClass(cartes[index]);
+        index++;
     });
 }
 
