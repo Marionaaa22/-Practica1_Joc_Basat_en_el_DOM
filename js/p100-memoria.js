@@ -90,7 +90,7 @@ function posicionarCartes() {
 
 function girarCarta() {
 
-    if ($(this).hasClass("carta-girada") || girades.length === 2) return;
+    if ($(this).hasClass("carta-girada")) return;
 
     $(this).addClass("carta-girada");
     girades.push($(this));
@@ -98,29 +98,6 @@ function girarCarta() {
     clics++;
     $("#contador").text(clics);
 
-    if (girades.length === 2) {
-        comprobarPareja();
-    }
-
-
 }
 
-function comprobarPareja() {
 
-    let c1 = girades[0].find(".davant").attr("class");
-    let c2 = girades[1].find(".davant").attr("class");
-
-    if (c1 === c2) {
-        setTimeout(() => {
-            girades[0].fadeOut();
-            girades[1].fadeOut();
-            girades = [];
-        }, 500);
-    } else {
-        setTimeout(() => {
-            girades[0].removeClass("carta-girada");
-            girades[1].removeClass("carta-girada");
-            girades = [];
-        }, 800);
-    }
-}
