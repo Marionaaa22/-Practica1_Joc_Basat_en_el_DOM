@@ -90,8 +90,6 @@ function posicionarCartes() {
 
 function girarCarta() {
 
-    if ($(this).hasClass("carta-girada")) return;
-
     $(this).addClass("carta-girada");
     girades.push($(this));
 
