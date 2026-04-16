@@ -88,6 +88,14 @@ function posicionarCartes() {
     });
 }
 
+function girarCarta() {
 
+    $(this).addClass("carta-girada");
+    girades.push($(this));
+
+    clics++;
+    $("#contador").text(clics);
+
+}
 
 
