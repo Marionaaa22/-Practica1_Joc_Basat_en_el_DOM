@@ -101,6 +101,7 @@ function girarCarta() {
     if (girades.length === 2) {
         comprobarPareja();
     }
+    
 
 
 }
