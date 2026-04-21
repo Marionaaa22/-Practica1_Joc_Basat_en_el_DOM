@@ -142,16 +142,16 @@ function comprobarPareja() {
 
 function contarTemps(files, columnes, temps) {
 
-    // parar timer anterior
     if (timer !== null) {
         clearInterval(timer);
     }
 
-    // asignar tiempo según dificultad
     if (files === 2 && columnes === 2) {
         temps = 20;
     } else if (files === 4 && columnes === 4) {
         temps = 60;
+    } else if (files === 3 && columnes === 4) {
+        temps = 40;
     } else if (files === 6 && columnes === 6) {
         temps = 120;
     }
