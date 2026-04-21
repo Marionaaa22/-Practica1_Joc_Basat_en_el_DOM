@@ -90,8 +90,6 @@ function posicionarCartes() {
 
 function girarCarta() {
 
-    if ($(this).hasClass("carta-girada") || girades.length === 2) return;
-
     $(this).addClass("carta-girada");
     girades.push($(this));
 
@@ -101,11 +99,9 @@ function girarCarta() {
     if (girades.length === 2) {
         comprobarPareja();
     }
-    // Reproducir un sonido cuando la carta se gira
-        let sonido = new Audio('./so/ClickSound.mp3');
-        sonido.play();
-
     
+
+
 }
 
 function comprobarPareja() {
@@ -130,3 +126,6 @@ function comprobarPareja() {
         }, 800);
     }
 }
+
+
+
