@@ -1,12 +1,12 @@
-var nFiles, nColumnes;
-var ampladaCarta, alcadaCarta;
+var nFiles, nColumnes; // Variables per numero de files i columnes
+var ampladaCarta, alcadaCarta; //Variables per la mida de les cartes
 var separacio = 10;
 
 var cartes = [];
 var girades = [];
 var clics = 0;
 var maxClics;
-var temps = 0;      // número de segundos
+var temps = 0;      
 var timer = null;
 var ultimaCarta = null;
 
@@ -20,8 +20,6 @@ function iniciarJoc(files, columnes) {
 
     nFiles = files;
     nColumnes = columnes;
-
-
 
     clics = 0;
     $("#contador").text(clics);
