@@ -100,7 +100,9 @@ function girarCarta() {
         comprobarPareja();
     }
     
-
+    // Reproducir un sonido cuando las Cartas se giran
+        let sonido = new Audio('./so/ClickSound.mp3');
+        sonido.play();
 
 }
 
