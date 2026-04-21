@@ -90,21 +90,11 @@ function posicionarCartes() {
 
 function girarCarta() {
 
-    if ($(this).hasClass("carta-girada") || girades.length === 2) return;
-
     $(this).addClass("carta-girada");
     girades.push($(this));
 
     clics++;
     $("#contador").text(clics);
-
-    if (girades.length === 2) {
-        comprobarPareja();
-    }
-    
-
-
-}
 
 function comprobarPareja() {
 
@@ -125,3 +115,6 @@ function comprobarPareja() {
         }, 800);
     }
 }
+
+
+
