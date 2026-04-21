@@ -6,8 +6,8 @@ var cartes = [];
 var girades = [];
 var clics = 0;
 var maxClics;
-var temps;
-
+var temps = 0;      // número de segundos
+var timer = null;
 var ultimaCarta = null;
 
 $(function () {
@@ -21,7 +21,7 @@ function iniciarJoc(files, columnes) {
     nFiles = files;
     nColumnes = columnes;
 
-    contarTemps(files, columnes, temps);
+
 
     clics = 0;
     $("#contador").text(clics);
@@ -29,6 +29,9 @@ function iniciarJoc(files, columnes) {
     generarTauler();
     generarCartes();
     posicionarCartes();
+
+    contarTemps(files, columnes, temps);
+
 }
 
 function generarTauler() {
@@ -59,10 +62,8 @@ function generarTauler() {
         height: alt
     });
 
-    if($(".carta").on("click", girarCarta)){
-        ultimaCarta = $(this).attr("id");
+    $(".carta").on("click", girarCarta);
 
-    }
 }
 
 function generarCartes() {
@@ -99,30 +100,23 @@ function posicionarCartes() {
 
 function girarCarta(ultimaCarta) {
 
-    
-    if ($(this).attr("id") === ultimaCarta) {
-        return;
+    if ($(this).hasClass("carta-girada")) return;
 
-    } else {
-        $(this).addClass("carta-girada");
-        girades.push($(this));
+    if (girades.length === 2) return;
 
-        clics++;
-        $("#contador").text(clics);
+    $(this).addClass("carta-girada");
+    girades.push($(this));
 
-        if (girades.length === 2) {
-            comprobarPareja();
-        }
+    clics++;
+    $("#contador").text(clics);
 
-        // Reproducir un sonido cuando las Cartas se giran
-        let sonido = new Audio('./so/ClickSound.mp3');
-        sonido.play();
+    let sonido = new Audio('./so/ClickSound.mp3');
+    sonido.play();
 
-        
+    if (girades.length === 2) {
+        comprobarPareja();
     }
 
-    ultimaCarta = $(this).attr("id");
-        console.log("Última carta girada: " + ultimaCarta);
 }
 
 function comprobarPareja() {
@@ -149,34 +143,33 @@ function comprobarPareja() {
 }
 
 function contarTemps(files, columnes, temps) {
-    if (files === 2 && columnes === 2) {
 
-        temps = 20;
-        $("#temps").text(temps);
-
-        let timer = setInterval(() => {
-            temps--;
-            $("#temps").text(temps);
-        }, 1000);
-
-    } else if (files === 4 && columnes === 4) {
-        temps = 40;
-        $("#temps").text(temps);
-
-        let timer = setInterval(() => {
-            temps--;
-            $("#temps").text(temps);
-        }, 1000);
-
-    } else if (files === 6 && columnes === 6) {
-        temps = 60;
-        $("#temps").text(temps);
-
-        let timer = setInterval(() => {
-            temps--;
-            $("#temps").text(temps);
-        }, 1000);
+    // parar timer anterior
+    if (timer !== null) {
+        clearInterval(timer);
     }
-}
 
+    // asignar tiempo según dificultad
+    if (files === 2 && columnes === 2) {
+        temps = 20;
+    } else if (files === 4 && columnes === 4) {
+        temps = 60;
+    } else if (files === 6 && columnes === 6) {
+        temps = 120;
+    }
+
+    $("#temps").text(temps);
+
+    // crear nuevo timer
+    timer = setInterval(() => {
+        temps--;
+        $("#temps").text(temps);
+
+        if (temps <= 0) {
+            clearInterval(timer);
+            alert("Temps acabat!");
+        }
+
+    }, 1000);
+}
 
