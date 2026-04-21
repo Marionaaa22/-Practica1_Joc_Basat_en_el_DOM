@@ -98,7 +98,7 @@ function girarCarta() {
 
     if (girades.length === 2) {
         comprobarPareja();
-    }
+    } 
     
     // Reproducir un sonido cuando las Cartas se giran
         let sonido = new Audio('./so/ClickSound.mp3');
@@ -120,6 +120,7 @@ function comprobarPareja() {
         // Reproducir un sonido cuando las Cartas se giran
         let sonido = new Audio('./so/PairSound.mp3');
         sonido.play();
+        
     } else {
         setTimeout(() => {
             girades[0].removeClass("carta-girada");
