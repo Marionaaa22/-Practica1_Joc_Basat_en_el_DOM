@@ -1,5 +1,5 @@
-var nFiles, nColumnes;
-var ampladaCarta, alcadaCarta;
+var nFiles, nColumnes; // Variables per numero de files i columnes
+var ampladaCarta, alcadaCarta; //Variables per la mida de les cartes
 var separacio = 10;
 
 var cartes = [];
@@ -7,10 +7,14 @@ var girades = [];
 var clics = 0;
 var parellesContador = 0;
 var maxClics;
+var temps = 0;      
+var timer = null;
+var ultimaCarta = null;
 
 $(function () {
 
-    iniciarJoc(2,2);
+    iniciarJoc(2, 2);
+
 });
 
 function iniciarJoc(files, columnes) {
@@ -25,6 +29,9 @@ function iniciarJoc(files, columnes) {
     generarTauler();
     generarCartes();
     posicionarCartes();
+
+    contarTemps(files, columnes, temps);
+
 }
 
 function generarTauler() {
@@ -34,7 +41,7 @@ function generarTauler() {
         for (let c = 0; c < nColumnes; c++) {
 
             let carta = $(`
-                <div class="carta" id = "f1c1">
+                <div class="carta" id ="f${f + 1}c${c + 1}">
                     <div class="cara darrera"></div>
                     <div class="cara davant"></div>
                 </div>
@@ -56,6 +63,7 @@ function generarTauler() {
     });
 
     $(".carta").on("click", girarCarta);
+
 }
 
 function generarCartes() {
@@ -76,13 +84,13 @@ function generarCartes() {
 function posicionarCartes() {
 
     let index = 0;
-    $(".carta").each(function() {
+    $(".carta").each(function () {
         let f = Math.floor(index / nColumnes) + 1;
         let c = (index % nColumnes) + 1;
-        
+
         $(this).css({
-            "left" :  ((c-1)*(ampladaCarta+separacio)+separacio)+"px",
-            "top"  :  ((f-1)*(alcadaCarta+separacio)+separacio)+"px"
+            "left": ((c - 1) * (ampladaCarta + separacio) + separacio) + "px",
+            "top": ((f - 1) * (alcadaCarta + separacio) + separacio) + "px"
         });
 
         $(this).find(".davant").addClass(cartes[index]);
@@ -90,7 +98,11 @@ function posicionarCartes() {
     });
 }
 
-function girarCarta() {
+function girarCarta(ultimaCarta) {
+
+    if ($(this).hasClass("carta-girada")) return;
+
+    if (girades.length === 2) return;
 
     $(this).addClass("carta-girada");
     girades.push($(this));
@@ -98,13 +110,12 @@ function girarCarta() {
     clics++;
     $("#contador").text(clics);
 
+    let sonido = new Audio('./so/ClickSound.mp3');
+    sonido.play();
+
     if (girades.length === 2) {
         comprobarPareja();
     }
-    
-    // Reproducir un sonido cuando las Cartas se giran
-        let sonido = new Audio('./so/ClickSound.mp3');
-        sonido.play();
 
 }
 
@@ -134,5 +145,34 @@ function comprobarPareja() {
     }
 }
 
+function contarTemps(files, columnes, temps) {
 
+    if (timer !== null) {
+        clearInterval(timer);
+    }
+
+    if (files === 2 && columnes === 2) {
+        temps = 20;
+    } else if (files === 4 && columnes === 4) {
+        temps = 60;
+    } else if (files === 3 && columnes === 4) {
+        temps = 40;
+    } else if (files === 6 && columnes === 6) {
+        temps = 120;
+    }
+
+    $("#temps").text(temps);
+
+    // crear nuevo timer
+    timer = setInterval(() => {
+        temps--;
+        $("#temps").text(temps);
+
+        if (temps <= 0) {
+            clearInterval(timer);
+            alert("Temps acabat!");
+        }
+
+    }, 1000);
+}
 
