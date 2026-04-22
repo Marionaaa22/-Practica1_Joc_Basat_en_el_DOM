@@ -181,3 +181,4 @@ function contarTemps(files, columnes, temps) {
 }
 
 
+
