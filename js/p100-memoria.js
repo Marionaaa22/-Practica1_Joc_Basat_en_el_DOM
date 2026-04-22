@@ -5,6 +5,7 @@ var separacio = 10;
 var cartes = [];
 var girades = [];
 var clics = 0;
+var parellesContador = 0;
 var maxClics;
 var temps = 0;      
 var timer = null;
@@ -23,7 +24,8 @@ function iniciarJoc(files, columnes) {
 
     clics = 0;
     $("#contador").text(clics);
-
+    parellesContador = 0;
+    $("#contadorParelles").text(parellesContador);
     generarTauler();
     generarCartes();
     posicionarCartes();
@@ -131,6 +133,9 @@ function comprobarPareja() {
         // Reproducir un sonido cuando las Cartas se giran
         let sonido = new Audio('./so/PairSound.mp3');
         sonido.play();
+        // Incrementar el contador de parejas
+        parellesContador++;
+        $("#contadorParelles").text(parellesContador);
     } else {
         setTimeout(() => {
             girades[0].removeClass("carta-girada");
