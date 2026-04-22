@@ -57,6 +57,29 @@ body {
     transform: rotate3d(0,1,0,0deg);
 }
 
+#info {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    width: fit-content;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    text-align: center; 
+    margin: 0 auto;
+}
+
+#info p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+#info span {
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
 /* pokemon */
  /* fila 111 - columna 111 */
 .carta1{background-position:    0       0; }
