@@ -1,13 +1,14 @@
-var nFiles, nColumnes;
-var ampladaCarta, alcadaCarta;
+var nFiles, nColumnes; // Variables per numero de files i columnes
+var ampladaCarta, alcadaCarta; //Variables per la mida de les cartes
 var separacio = 10;
 
 var cartes = [];
 var girades = [];
 var clics = 0;
+var parellesContador = 0;
 var maxClics;
-var temps;
-
+var temps = 0;      
+var timer = null;
 var ultimaCarta = null;
 
 $(function () {
@@ -21,14 +22,16 @@ function iniciarJoc(files, columnes) {
     nFiles = files;
     nColumnes = columnes;
 
-    contarTemps(files, columnes, temps);
-
     clics = 0;
     $("#contador").text(clics);
-
+    parellesContador = 0;
+    $("#contadorParelles").text(parellesContador);
     generarTauler();
     generarCartes();
     posicionarCartes();
+
+    contarTemps(files, columnes, temps);
+
 }
 
 function generarTauler() {
@@ -59,10 +62,8 @@ function generarTauler() {
         height: alt
     });
 
-    if($(".carta").on("click", girarCarta)){
-        ultimaCarta = $(this).attr("id");
+    $(".carta").on("click", girarCarta);
 
-    }
 }
 
 function generarCartes() {
@@ -99,22 +100,24 @@ function posicionarCartes() {
 
 function girarCarta(ultimaCarta) {
 
-    
-    if ($(this).attr("id") === ultimaCarta) {
-        return;
+    if ($(this).hasClass("carta-girada")) return;
 
-    } else {
-        $(this).addClass("carta-girada");
-        girades.push($(this));
+    if (girades.length === 2) return;
 
-        clics++;
-        $("#contador").text(clics);
+    $(this).addClass("carta-girada");
+    girades.push($(this));
 
-    if (girades.length === 2) {
-        comprobarPareja();
-    }
-    
-    // Reproducir un sonido cuando las Cartas se giran
+    clics++;
+    $("#contador").text(clics);
+
+    let sonido = new Audio('./so/ClickSound.mp3');
+    sonido.play();
+
+        if (girades.length === 2) {
+            comprobarPareja();
+        }
+
+        // Reproducir un sonido cuando las Cartas se giran
         let sonido = new Audio('./so/ClickSound.mp3');
         sonido.play();
 
@@ -139,7 +142,6 @@ function comprobarPareja() {
         // Reproducir un sonido cuando las Cartas se giran
         let sonido = new Audio('./so/PairSound.mp3');
         sonido.play();
-        
     } else {
         setTimeout(() => {
             girades[0].removeClass("carta-girada");
@@ -150,27 +152,26 @@ function comprobarPareja() {
 }
 
 function contarTemps(files, columnes, temps) {
+
+    if (timer !== null) {
+        clearInterval(timer);
+    }
+
     if (files === 2 && columnes === 2) {
-
         temps = 20;
-        $("#temps").text(temps);
-
-        let timer = setInterval(() => {
-            temps--;
-            $("#temps").text(temps);
-        }, 1000);
-
     } else if (files === 4 && columnes === 4) {
-        temps = 40;
-        $("#temps").text(temps);
-
-        let timer = setInterval(() => {
-            temps--;
-            $("#temps").text(temps);
-        }, 1000);
-
-    } else if (files === 6 && columnes === 6) {
         temps = 60;
+    } else if (files === 3 && columnes === 4) {
+        temps = 40;
+    } else if (files === 6 && columnes === 6) {
+        temps = 120;
+    }
+
+    $("#temps").text(temps);
+
+    // crear nuevo timer
+    timer = setInterval(() => {
+        temps--;
         $("#temps").text(temps);
 
         let timer = setInterval(() => {
@@ -179,6 +180,5 @@ function contarTemps(files, columnes, temps) {
         }, 1000);
     }
 }
-
 
 
