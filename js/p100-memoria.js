@@ -12,6 +12,16 @@ var timer = null;
 var incrementTemps = 20;
 var ultimaCarta = null;
 
+const DECK = 1;
+const POKEM = 2;
+const POKER = 3;
+
+var tipoCarta;
+var separacioH = 20, separacioV = 20;
+var deckWidth = 80, deckHeight = 120;
+var pokeWidth = 111, pokeHeight = 111;
+var pokerWidth = 79, pokerHeight = 124;
+
 $(function () {
 
     let mides = ["2x2", "3x4", "4x4", "6x6"];
@@ -25,7 +35,7 @@ $(function () {
     });
 
 
-    iniciarJoc(2, 2);
+    iniciarJoc(2, 2, POKEM);
 
 });
 
@@ -48,21 +58,35 @@ function personalitzat() {
     }
 }
 
-function iniciarJoc(files, columnes) {
+function iniciarJoc(files, columnes, type) {
 
     cerrarMenu(); 
 
     nFiles = files;
     nColumnes = columnes;
 
+    if (type == DECK) {
+        ampladaCarta = deckWidth;
+        alcadaCarta = deckHeight;
+        tipoCarta = "deck";
+
+    } else if (type == POKEM) {
+        ampladaCarta = pokeWidth;
+        alcadaCarta = pokeHeight;
+        tipoCarta = "pokem";
+    }else if (type == POKER) {
+        ampladaCarta = pokerWidth;
+        alcadaCarta = pokerHeight;
+        tipoCarta = "poker";
+    }
+    
     clics = 0;
     $("#contador").text(clics);
     parellesContador = 0;
     $("#contadorParelles").text(parellesContador);
     generarTauler();
     generarCartes();
-    posicionarCartes();
-
+    posicionarCartes(type);
     contarTemps(files, columnes, temps);
 
 }
@@ -83,9 +107,6 @@ function generarTauler() {
             $("#tauler").append(carta);
         }
     }
-
-    ampladaCarta = $(".carta").width();
-    alcadaCarta = $(".carta").height();
 
     let ample = nColumnes * (ampladaCarta + separacio);
     let alt = nFiles * (alcadaCarta + separacio);
@@ -114,7 +135,7 @@ function generarCartes() {
     cartes = base.sort(() => Math.random() - 0.5);
 }
 
-function posicionarCartes() {
+function posicionarCartes(type) {
 
     let index = 0;
     $(".carta").each(function () {
@@ -122,11 +143,26 @@ function posicionarCartes() {
         let c = (index % nColumnes) + 1;
 
         $(this).css({
+            "width": ampladaCarta + "px",
+            "height": alcadaCarta + "px",
             "left": ((c - 1) * (ampladaCarta + separacio) + separacio) + "px",
             "top": ((f - 1) * (alcadaCarta + separacio) + separacio) + "px"
         });
 
-        $(this).find(".davant").addClass(cartes[index]);
+        $(this).find(".davant").addClass(tipoCarta+cartes[index]);
+        if (type == DECK) {
+            $(this).find(".davant").removeClass("deck pokemon poker").addClass("deck");
+            $(this).find(".darrera").removeClass("deck pokemon poker").addClass("deck");
+        }
+        else if (type == POKEM) {
+            $(this).find(".davant").removeClass("deck pokemon poker").addClass("pokemon");
+            $(this).find(".darrera").removeClass("deck pokemon poker").addClass("pokemon");
+        }
+        else if (type == POKER) {
+            $(this).find(".davant").removeClass("deck pokemon poker").addClass("poker");
+            $(this).find(".darrera").removeClass("deck pokemon poker").addClass("poker");
+        }
+        
         index++;
     });
 }
