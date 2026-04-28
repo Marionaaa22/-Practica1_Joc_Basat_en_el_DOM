@@ -14,7 +14,7 @@
 <body>
     <header>
         <h1>Memory Pokemón Game</h1>
-        <button type="button" onclick="mostrarMenu()">
+        <button type="button" onclick="mostrarMenu()" class="botonAjustes">
             <img class="ajustesImg" src="./img/ajustes.png" alt="Ajustes">
         </button>
     </header>
@@ -35,25 +35,24 @@
             </div>
         </div>
 
-
-
         <div id="menu" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="cerrarMenu()">&times;</span>
 
                 <div class="tipusTauler">
                     <h3>Selecciona el tipus de tauler</h3>
-                    <button onclick="iniciarJoc(2,2); cerrarMenu()">2x2</button>
-                    <button onclick="iniciarJoc(3,4); cerrarMenu()">3x4</button>
-                    <button onclick="iniciarJoc(4,4); cerrarMenu()">4x4</button>
-                    <button onclick="iniciarJoc(6,6); cerrarMenu()">6x6</button>
+                    <button onclick="iniciarJoc(2,2, tipo); cerrarMenu()">2x2</button>
+                    <button onclick="iniciarJoc(3,4, tipo); cerrarMenu()">3x4</button>
+                    <button onclick="iniciarJoc(4,4, tipo); cerrarMenu()">4x4</button>
+                    <button onclick="iniciarJoc(6,6, tipo); cerrarMenu()">6x6</button>
+                    <button onclick="personalitzat(); cerrarMenu()">Personalitzat</button>
                 </div>
 
                 <div class="tipusCartes">
                     <h3>Selecciona el tipus de cartes</h3>
-                    <button>Pokémon</button>
-                    <button>Deck</button>
-                    <button>Póker</button>
+                    <button onclick="iniciarJoc(2,2, POKEM); cerrarMenu()">Pokémon</button>
+                    <button onclick="iniciarJoc(2,2, DECK); cerrarMenu()">Deck</button>
+                    <button onclick="iniciarJoc(2,2, POKER); cerrarMenu()">Póker</button>
                 </div>
 
                 <div class="so">
