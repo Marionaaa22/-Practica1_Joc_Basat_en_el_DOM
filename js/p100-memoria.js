@@ -37,6 +37,17 @@ function cerrarMenu() {
     document.getElementById("menu").style.display = "none";
 }
 
+function personalitzat() {
+    let files = parseInt(prompt("Introdueix el nombre de files (2, 3, 4 o 6):"));
+    let columnes = parseInt(prompt("Introdueix el nombre de columnes (2, 4 o 6):"));
+
+    if (files >= 2 && files <= 6 && columnes >= 2 && columnes <= 6) {
+        iniciarJoc(files, columnes);
+    } else {
+        alert("Entrades no vàlides. Si us plau, introdueix valors entre 2 i 6.");
+    }
+}
+
 function iniciarJoc(files, columnes) {
 
     cerrarMenu(); 
@@ -183,6 +194,8 @@ function contarTemps(files, columnes, temps) {
             temps = incrementTemps * columnes;
         } else if (files === 6 && columnes === 6) {
             temps = incrementTemps * columnes;
+        }else{
+            temps = incrementTemps* columnes;
         }
 
         $("#temps").text(temps);
