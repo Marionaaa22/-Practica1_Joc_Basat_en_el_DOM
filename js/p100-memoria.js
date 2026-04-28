@@ -7,8 +7,9 @@ var girades = [];
 var clics = 0;
 var parellesContador = 0;
 var maxClics;
-var temps = 0;      
+var temps = 0;
 var timer = null;
+var incrementTemps = 20;
 var ultimaCarta = null;
 
 const DECK = 1;
@@ -23,11 +24,13 @@ var pokerWidth = 79, pokerHeight = 124;
 
 $(function () {
 
-    iniciarJoc(2, 2,POKER);
+    iniciarJoc(2, 2,POKEM);
 
 });
 
 function iniciarJoc(files, columnes, type) {
+
+    cerrarMenu(); 
 
     nFiles = files;
     nColumnes = columnes;
@@ -165,6 +168,7 @@ function comprobarPareja() {
             girades[0].fadeOut();
             girades[1].fadeOut();
             girades = [];
+            hasguanyat();
         }, 500);
         // Reproducir un sonido cuando las Cartas se giran
         let sonido = new Audio('./so/PairSound.mp3');
@@ -183,32 +187,67 @@ function comprobarPareja() {
 
 function contarTemps(files, columnes, temps) {
 
-    if (timer !== null) {
-        clearInterval(timer);
-    }
-
-    if (files === 2 && columnes === 2) {
-        temps = 20;
-    } else if (files === 4 && columnes === 4) {
-        temps = 60;
-    } else if (files === 3 && columnes === 4) {
-        temps = 40;
-    } else if (files === 6 && columnes === 6) {
-        temps = 120;
-    }
-
-    $("#temps").text(temps);
-
-    // crear nuevo timer
-    timer = setInterval(() => {
-        temps--;
-        $("#temps").text(temps);
-
-        if (temps <= 0) {
+    if ($(".carta").on("click")) {
+        if (timer !== null) {
             clearInterval(timer);
-            alert("Temps acabat!");
         }
 
-    }, 1000);
+        if (files === 2 && columnes === 2) {
+            temps = incrementTemps * columnes;
+        } else if (files === 4 && columnes === 4) {
+            temps = incrementTemps * columnes;
+        } else if (files === 3 && columnes === 4) {
+            temps = incrementTemps * columnes;
+        } else if (files === 6 && columnes === 6) {
+            temps = incrementTemps * columnes;
+        }else{
+            temps = incrementTemps* columnes;
+        }
+
+        $("#temps").text(temps);
+
+        timer = setInterval(() => {
+            temps--;
+            $("#temps").text(temps);
+
+            if (temps <= 0) {
+                clearInterval(timer);
+                alert("Temps acabat!");
+            }
+
+        }, 1000);
+
+    }
 }
+
+function hasguanyat() {
+    let totalParelles = (nFiles * nColumnes) / 2;
+
+    if (parellesContador === totalParelles) {
+        clearInterval(timer);
+        
+        let tempsFinal = parseInt($("#temps").text());
+        alert("HAS GUANYAT EN " + clics + " clics.");
+       
+    
+    verificarRecord(tempsFinal);
+    }
+}
+function verificarRecord(tempsRestant) {
+   
+    let clauRecord = "millorrecord" + nFiles + "x" + nColumnes;
+    
+    let recordAnterior = localStorage.getItem(clauRecord);
+
+   
+    if (recordAnterior === null || tempsRestant > Number(recordAnterior)) {
+        
+        localStorage.setItem(clauRecord, tempsRestant);
+       
+        $("#millorrecord" + nFiles + "x" + nColumnes).text(tempsRestant);
+        
+        alert("Nou rècord personal per a " + nFiles + "x" + nColumnes + "!");
+    }
+}
+
 

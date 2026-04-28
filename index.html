@@ -13,34 +13,60 @@
 
 <body>
     <header>
-        <h1>Memory Game</h1>
+        <h1>Memory Pokemón Game</h1>
+        <button type="button" onclick="mostrarMenu()" class="botonAjustes">
+            <img class="ajustesImg" src="./img/ajustes.png" alt="Ajustes">
+        </button>
     </header>
 
     <div>
-       
-           
-        <div id="info">
-            <p>Clics: <span id="contador">0</span></p>
-            <p>Contador Parelles: <span id="contadorParelles">0</span></p>
-            <p>Temps: <span id="temps">0</span> segons</p>
-      </div>
-        
-        
-        
-
-        <div id="contador">
-            <button onclick="iniciarJoc(2,2,POKEM)">2x2</button>
-            <button onclick="iniciarJoc(3,4,DECK)">3x4</button>
-            <button onclick="iniciarJoc(4,4,POKEM)">4x4</button>
-            <button onclick="iniciarJoc(6,6,POKEM)">6x6</button>
+        <div class="contenidor-box">
+            <div id="Records" class="box">
+                <p>Millor Record 2x2: <span id="millorrecord2x2">0</span> segons restants</p>
+                <p>Millor Record 3x4: <span id="millorrecord3x4">0</span> segons restants</p>
+                <p>Millor Record 4x4: <span id="millorrecord4x4">0</span> segons restants</p>
+                <p>Millor Record 6x6: <span id="millorrecord6x6">0</span> segons restants</p>
+            </div>
+            <div id="tauler"></div>
+            <div id="info" class="box">
+                <p>Clics: <span id="contador">0</span></p>
+                <p>Contador Parelles: <span id="contadorParelles">0</span></p>
+                <p>Temps: <span id="temps">0</span> segons</p>
+            </div>
         </div>
 
-        <div id="tauler"></div>
-    </div>
+        <div id="menu" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarMenu()">&times;</span>
 
-    <footer>
-        <p>Fes clic en una carta per donar-li la volta</p>
-    </footer>
+                <div class="tipusTauler">
+                    <h3>Selecciona el tipus de tauler</h3>
+                    <button onclick="iniciarJoc(2,2); cerrarMenu()">2x2</button>
+                    <button onclick="iniciarJoc(3,4); cerrarMenu()">3x4</button>
+                    <button onclick="iniciarJoc(4,4); cerrarMenu()">4x4</button>
+                    <button onclick="iniciarJoc(6,6); cerrarMenu()">6x6</button>
+                    <button onclick="personalitzat(); cerrarMenu()">Personalitzat</button>
+                </div>
+
+                <div class="tipusCartes">
+                    <h3>Selecciona el tipus de cartes</h3>
+                    <button>Pokémon</button>
+                    <button>Deck</button>
+                    <button>Póker</button>
+                </div>
+
+                <div class="so">
+                    <h3>So</h3>
+                    <label>
+                        <input type="checkbox" id="soToggle"> Activar so
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Fes clic en una carta per donar-li la volta</p>
+        </footer>
 
 
 
