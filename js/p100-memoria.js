@@ -56,8 +56,9 @@ function personalitzat() {
     } else {
         alert("Entrades no vàlides. Si us plau, introdueix valors entre 2 i 6.");
     }
-}
 
+    iniciarJoc(2, 2,POKEM);
+}
 function iniciarJoc(files, columnes, type) {
 
     cerrarMenu(); 
@@ -79,7 +80,7 @@ function iniciarJoc(files, columnes, type) {
         alcadaCarta = pokerHeight;
         tipoCarta = "poker";
     }
-    
+
     clics = 0;
     $("#contador").text(clics);
     parellesContador = 0;
@@ -162,7 +163,7 @@ function posicionarCartes(type) {
             $(this).find(".davant").removeClass("deck pokemon poker").addClass("poker");
             $(this).find(".darrera").removeClass("deck pokemon poker").addClass("poker");
         }
-        
+    
         index++;
     });
 }
