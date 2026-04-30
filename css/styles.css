@@ -4,7 +4,7 @@ body {
     color: #4A4A4A;
 }
 
-header{
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,17 +19,20 @@ header h1 {
 }
 
 #Records {
-  background: linear-gradient(135deg, #a5bfd6, #9bd7db);
+    background: #9890e3 100%;
     color: #ffffff;
     padding: 15px 25px;
     border-radius: 12px;
     width: fit-content;
     font-family: Arial, sans-serif;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-    text-align: center; 
-    grid-column: 3; 
-    justify-self: end;
-    margin-right: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+
+
+    grid-column: 1;
+    justify-self: start;
+    margin-left: 20px;
+    margin-right: 0;
 }
 
 #Records p {
@@ -43,31 +46,60 @@ header h1 {
     margin-left: 5px;
 }
 
-.contenidor-box{
+.contenidor-box {
     display: grid;
-    grid-template-columns: 300px auto; /* izquierda fija + derecha flexible */
+
+    grid-template-columns: 300px 1fr 300px;
     grid-template-rows: auto auto;
     gap: 20px;
-    align-items: start;
-    justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
 }
 
 .box {
+    background: #9890e3 100%;
+
     width: 260px;
 }
 
-#info {
-    grid-column: 1;
-    grid-row: 1;
-}
-
+#info,
 #Records {
     grid-column: 1;
-    grid-row: 2;
+    justify-self: start;
+    margin-left: 0;
+    width: 280px;
 }
 
-.ajustesImg{
+#info {
+    background: #9890e3 100%;
+    grid-column: 1;
+    grid-row: 1;
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    width: fit-content;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin: 0 auto;
+}
+
+#info p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+#info span {
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+
+.ajustesImg {
     position: absolute;
     top: 30px;
     right: 30px;
@@ -92,14 +124,16 @@ header h1 {
 
 
 .modal {
-    display: none; /* oculto al inicio */
+    display: none;
+    /* oculto al inicio */
     position: fixed;
     z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5); /* fondo oscuro */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* fondo oscuro */
 }
 
 .modal-content {
@@ -126,7 +160,8 @@ header h1 {
     padding-bottom: 15px;
     width: fit-content;
     grid-column: 2;
-    grid-row: 1 / span 2; /* ocupa toda la derecha */
+    grid-row: 1 / span 2;
+    /* ocupa toda la derecha */
 
     background-color: #d3d3d3;
     /* color base */
@@ -170,8 +205,8 @@ header h1 {
     backface-visibility: hidden;
 }
 
-.davant {                
-    transform: rotate3d(0,1,0,-180deg);
+.davant {
+    transform: rotate3d(0, 1, 0, -180deg);
 }
 
 
@@ -182,11 +217,12 @@ header h1 {
 .davant.pokemon {
     background-image: url('../img/pokemon.jpg');
 }
+
 .davant.poker {
     background-image: url('../img/poker1.png');
 }
 
-.darrera.deck{
+.darrera.deck {
     background: url('../img/deck.png') 0px -480px;
 }
 
@@ -208,151 +244,478 @@ header h1 {
     transform: rotate3d(0, 1, 0, 0deg);
 }
 
-#info {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-    color: #ffffff;
-    padding: 15px 25px;
-    border-radius: 12px;
-    width: fit-content;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-    text-align: center; 
-    margin: 0 auto;
+.deckcarta1 {
+    background-position: 0 0;
 }
 
-#info p {
-    margin: 8px 0;
-    font-size: 16px;
+.deckcarta2 {
+    background-position: -80px 0;
 }
 
-#info span {
-    font-weight: bold;
-    font-size: 18px;
-    margin-left: 5px;
+.deckcarta3 {
+    background-position: -160px 0;
 }
 
-.deckcarta1 {background-position: 0 0;}
-.deckcarta2 {background-position: -80px 0;} 
-.deckcarta3 {background-position: -160px 0;}
-.deckcarta4 {background-position: -240px 0;}
-.deckcarta5 {background-position: -320px 0;}
-.deckcarta6 {background-position: -400px 0;}
-.deckcarta7 {background-position: -480px 0;}
-.deckcarta8 {background-position: -560px 0;}
-.deckcarta9 {background-position: -640px 0;}
-.deckcarta10 {background-position: -720px 0;}
-.deckcarta11 {background-position: -800px 0;}
-.deckcarta12 {background-position: -880px 0;}
-.deckcarta13 {background-position: -960px 0;}
+.deckcarta4 {
+    background-position: -240px 0;
+}
 
-.deckcarta14 {background-position: 0 -120;}
-.deckcarta15 {background-position: -80px -120px;}
-.deckcarta16 {background-position: -160px -120px;}
-.deckcarta17 {background-position: -240px -120px;}
-.deckcarta18 {background-position: -320px -120px;}
-.deckcarta19 {background-position: -400px -120px;}
-.deckcarta20 {background-position: -480px -120px;}
-.deckcarta21 {background-position: -560px -120px;}
-.deckcarta22 {background-position: -640px -120px;}
-.deckcarta23 {background-position: -720px -120px;}
-.deckcarta24 {background-position: -800px -120px;}
-.deckcarta25 {background-position: -880px -120px;}
-.deckcarta26 {background-position: -960px -120px;}
+.deckcarta5 {
+    background-position: -320px 0;
+}
 
-.deckcarta27 {background-position: 0 -120;}
-.deckcarta28 {background-position: -80px -240px;}
-.deckcarta29 {background-position: -160px -240px;}
-.deckcarta30 {background-position: -240px -240px;}
-.deckcarta31 {background-position: -320px -240px;}
-.deckcarta32 {background-position: -400px -240px;}
-.deckcarta33 {background-position: -480px -240px;}
-.deckcarta34 {background-position: -560px -240px;}
-.deckcarta35 {background-position: -640px -240px;}
-.deckcarta36 {background-position: -720px -240px;}
-.deckcarta37 {background-position: -800px -240px;}
-.deckcarta38 {background-position: -880px -240px;}
-.deckcarta39 {background-position: -960px -240px;}
+.deckcarta6 {
+    background-position: -400px 0;
+}
 
-.deckcarta40 {background-position: 0 -360px;}
-.deckcarta41 {background-position: -80px -360px;}
-.deckcarta42 {background-position: -160px -360px;}
-.deckcarta43 {background-position: -240px -360px;}
-.deckcarta44 {background-position: -320px -360px;}
-.deckcarta45 {background-position: -400px -360px;}
-.deckcarta46 {background-position: -480px -360px;}
-.deckcarta47 {background-position: -560px -360px;}
-.deckcarta48 {background-position: -640px -360px;}
-.deckcarta49 {background-position: -720px -360px;}
-.deckcarta50 {background-position: -800px -360px;}
-.deckcarta51 {background-position: -880px -360px;}
-.deckcarta52 {background-position: -960px -360px;}
-.pokemcarta1{background-position:    0       0; }
-.pokemcarta2{background-position: -111px     0; }
-.pokemcarta3{background-position: -222px     0; }
-.pokemcarta4{background-position: -333px     0; }
-.pokemcarta5{background-position: -444px     0; }
-.pokemcarta6{background-position: -555px     0; }
-.pokemcarta7{background-position: -666px     0; }
-.pokemcarta8{background-position:   -0    -111px; }
-.pokemcarta9{background-position: -111px  -111px; }
-.pokemcarta10{background-position: -222px -111px; }
-.pokemcarta11{background-position: -333px -111px; }
-.pokemcarta12{background-position: -444px -111px; }
-.pokemcarta13{background-position: -555px -111px; }
-.pokemcarta14{background-position: -666px -111px; }
-.pokemcarta15{background-position: -777px -111px; }
-.pokercarta1  { background-position:    0px     0px; }
-.pokercarta2  { background-position:  -79px     0px; }
-.pokercarta3  { background-position: -158px     0px; }
-.pokercarta4  { background-position: -237px     0px; }
-.pokercarta5  { background-position: -316px     0px; }
-.pokercarta6  { background-position: -395px     0px; }
-.pokercarta7  { background-position: -474px     0px; }
-.pokercarta8  { background-position: -553px     0px; }
-.pokercarta9  { background-position: -632px     0px; }
-.pokercarta10 { background-position: -711px     0px; }
-.pokercarta11 { background-position: -790px     0px; }
-.pokercarta12 { background-position: -869px     0px; }
-.pokercarta13 { background-position: -948px     0px; }
+.deckcarta7 {
+    background-position: -480px 0;
+}
 
-.pokercarta14 { background-position:    0px  -124px; }
-.pokercarta15 { background-position:  -79px  -124px; }
-.pokercarta16 { background-position: -158px  -124px; }
-.pokercarta17 { background-position: -237px  -124px; }
-.pokercarta18 { background-position: -316px  -124px; }
-.pokercarta19 { background-position: -395px  -124px; }
-.pokercarta20 { background-position: -474px  -124px; }
-.pokercarta21 { background-position: -553px  -124px; }
-.pokercarta22 { background-position: -632px  -124px; }
-.pokercarta23 { background-position: -711px  -124px; }
-.pokercarta24 { background-position: -790px  -124px; }
-.pokercarta25 { background-position: -869px  -124px; }
-.pokercarta26 { background-position: -948px  -124px; }
+.deckcarta8 {
+    background-position: -560px 0;
+}
 
-.pokercarta27 { background-position:    0px  -248px; }
-.pokercarta28 { background-position:  -79px  -248px; }
-.pokercarta29 { background-position: -158px  -248px; }
-.pokercarta30 { background-position: -237px  -248px; }
-.pokercarta31 { background-position: -316px  -248px; }
-.pokercarta32 { background-position: -395px  -248px; }
-.pokercarta33 { background-position: -474px  -248px; }
-.pokercarta34 { background-position: -553px  -248px; }
-.pokercarta35 { background-position: -632px  -248px; }
-.pokercarta36 { background-position: -711px  -248px; }
-.pokercarta37 { background-position: -790px  -248px; }
-.pokercarta38 { background-position: -869px  -248px; }
-.pokercarta39 { background-position: -948px  -248px; }
+.deckcarta9 {
+    background-position: -640px 0;
+}
 
-.pokercarta40 { background-position:    0px  -372px; }
-.pokercarta41 { background-position:  -79px  -372px; }
-.pokercarta42 { background-position: -158px  -372px; }
-.pokercarta43 { background-position: -237px  -372px; }
-.pokercarta44 { background-position: -316px  -372px; }
-.pokercarta45 { background-position: -395px  -372px; }
-.pokercarta46 { background-position: -474px  -372px; }
-.pokercarta47 { background-position: -553px  -372px; }
-.pokercarta48 { background-position: -632px  -372px; }
-.pokercarta49 { background-position: -711px  -372px; }
-.pokercarta50 { background-position: -790px  -372px; }
-.pokercarta51 { background-position: -869px  -372px; }
-.pokercarta52 { background-position: -948px  -372px; }
+.deckcarta10 {
+    background-position: -720px 0;
+}
+
+.deckcarta11 {
+    background-position: -800px 0;
+}
+
+.deckcarta12 {
+    background-position: -880px 0;
+}
+
+.deckcarta13 {
+    background-position: -960px 0;
+}
+
+.deckcarta14 {
+    background-position: 0 -120;
+}
+
+.deckcarta15 {
+    background-position: -80px -120px;
+}
+
+.deckcarta16 {
+    background-position: -160px -120px;
+}
+
+.deckcarta17 {
+    background-position: -240px -120px;
+}
+
+.deckcarta18 {
+    background-position: -320px -120px;
+}
+
+.deckcarta19 {
+    background-position: -400px -120px;
+}
+
+.deckcarta20 {
+    background-position: -480px -120px;
+}
+
+.deckcarta21 {
+    background-position: -560px -120px;
+}
+
+.deckcarta22 {
+    background-position: -640px -120px;
+}
+
+.deckcarta23 {
+    background-position: -720px -120px;
+}
+
+.deckcarta24 {
+    background-position: -800px -120px;
+}
+
+.deckcarta25 {
+    background-position: -880px -120px;
+}
+
+.deckcarta26 {
+    background-position: -960px -120px;
+}
+
+.deckcarta27 {
+    background-position: 0 -120;
+}
+
+.deckcarta28 {
+    background-position: -80px -240px;
+}
+
+.deckcarta29 {
+    background-position: -160px -240px;
+}
+
+.deckcarta30 {
+    background-position: -240px -240px;
+}
+
+.deckcarta31 {
+    background-position: -320px -240px;
+}
+
+.deckcarta32 {
+    background-position: -400px -240px;
+}
+
+.deckcarta33 {
+    background-position: -480px -240px;
+}
+
+.deckcarta34 {
+    background-position: -560px -240px;
+}
+
+.deckcarta35 {
+    background-position: -640px -240px;
+}
+
+.deckcarta36 {
+    background-position: -720px -240px;
+}
+
+.deckcarta37 {
+    background-position: -800px -240px;
+}
+
+.deckcarta38 {
+    background-position: -880px -240px;
+}
+
+.deckcarta39 {
+    background-position: -960px -240px;
+}
+
+.deckcarta40 {
+    background-position: 0 -360px;
+}
+
+.deckcarta41 {
+    background-position: -80px -360px;
+}
+
+.deckcarta42 {
+    background-position: -160px -360px;
+}
+
+.deckcarta43 {
+    background-position: -240px -360px;
+}
+
+.deckcarta44 {
+    background-position: -320px -360px;
+}
+
+.deckcarta45 {
+    background-position: -400px -360px;
+}
+
+.deckcarta46 {
+    background-position: -480px -360px;
+}
+
+.deckcarta47 {
+    background-position: -560px -360px;
+}
+
+.deckcarta48 {
+    background-position: -640px -360px;
+}
+
+.deckcarta49 {
+    background-position: -720px -360px;
+}
+
+.deckcarta50 {
+    background-position: -800px -360px;
+}
+
+.deckcarta51 {
+    background-position: -880px -360px;
+}
+
+.deckcarta52 {
+    background-position: -960px -360px;
+}
+
+.pokemcarta1 {
+    background-position: 0 0;
+}
+
+.pokemcarta2 {
+    background-position: -111px 0;
+}
+
+.pokemcarta3 {
+    background-position: -222px 0;
+}
+
+.pokemcarta4 {
+    background-position: -333px 0;
+}
+
+.pokemcarta5 {
+    background-position: -444px 0;
+}
+
+.pokemcarta6 {
+    background-position: -555px 0;
+}
+
+.pokemcarta7 {
+    background-position: -666px 0;
+}
+
+.pokemcarta8 {
+    background-position: -0 -111px;
+}
+
+.pokemcarta9 {
+    background-position: -111px -111px;
+}
+
+.pokemcarta10 {
+    background-position: -222px -111px;
+}
+
+.pokemcarta11 {
+    background-position: -333px -111px;
+}
+
+.pokemcarta12 {
+    background-position: -444px -111px;
+}
+
+.pokemcarta13 {
+    background-position: -555px -111px;
+}
+
+.pokemcarta14 {
+    background-position: -666px -111px;
+}
+
+.pokemcarta15 {
+    background-position: -777px -111px;
+}
+
+.pokercarta1 {
+    background-position: 0px 0px;
+}
+
+.pokercarta2 {
+    background-position: -79px 0px;
+}
+
+.pokercarta3 {
+    background-position: -158px 0px;
+}
+
+.pokercarta4 {
+    background-position: -237px 0px;
+}
+
+.pokercarta5 {
+    background-position: -316px 0px;
+}
+
+.pokercarta6 {
+    background-position: -395px 0px;
+}
+
+.pokercarta7 {
+    background-position: -474px 0px;
+}
+
+.pokercarta8 {
+    background-position: -553px 0px;
+}
+
+.pokercarta9 {
+    background-position: -632px 0px;
+}
+
+.pokercarta10 {
+    background-position: -711px 0px;
+}
+
+.pokercarta11 {
+    background-position: -790px 0px;
+}
+
+.pokercarta12 {
+    background-position: -869px 0px;
+}
+
+.pokercarta13 {
+    background-position: -948px 0px;
+}
+
+.pokercarta14 {
+    background-position: 0px -124px;
+}
+
+.pokercarta15 {
+    background-position: -79px -124px;
+}
+
+.pokercarta16 {
+    background-position: -158px -124px;
+}
+
+.pokercarta17 {
+    background-position: -237px -124px;
+}
+
+.pokercarta18 {
+    background-position: -316px -124px;
+}
+
+.pokercarta19 {
+    background-position: -395px -124px;
+}
+
+.pokercarta20 {
+    background-position: -474px -124px;
+}
+
+.pokercarta21 {
+    background-position: -553px -124px;
+}
+
+.pokercarta22 {
+    background-position: -632px -124px;
+}
+
+.pokercarta23 {
+    background-position: -711px -124px;
+}
+
+.pokercarta24 {
+    background-position: -790px -124px;
+}
+
+.pokercarta25 {
+    background-position: -869px -124px;
+}
+
+.pokercarta26 {
+    background-position: -948px -124px;
+}
+
+.pokercarta27 {
+    background-position: 0px -248px;
+}
+
+.pokercarta28 {
+    background-position: -79px -248px;
+}
+
+.pokercarta29 {
+    background-position: -158px -248px;
+}
+
+.pokercarta30 {
+    background-position: -237px -248px;
+}
+
+.pokercarta31 {
+    background-position: -316px -248px;
+}
+
+.pokercarta32 {
+    background-position: -395px -248px;
+}
+
+.pokercarta33 {
+    background-position: -474px -248px;
+}
+
+.pokercarta34 {
+    background-position: -553px -248px;
+}
+
+.pokercarta35 {
+    background-position: -632px -248px;
+}
+
+.pokercarta36 {
+    background-position: -711px -248px;
+}
+
+.pokercarta37 {
+    background-position: -790px -248px;
+}
+
+.pokercarta38 {
+    background-position: -869px -248px;
+}
+
+.pokercarta39 {
+    background-position: -948px -248px;
+}
+
+.pokercarta40 {
+    background-position: 0px -372px;
+}
+
+.pokercarta41 {
+    background-position: -79px -372px;
+}
+
+.pokercarta42 {
+    background-position: -158px -372px;
+}
+
+.pokercarta43 {
+    background-position: -237px -372px;
+}
+
+.pokercarta44 {
+    background-position: -316px -372px;
+}
+
+.pokercarta45 {
+    background-position: -395px -372px;
+}
+
+.pokercarta46 {
+    background-position: -474px -372px;
+}
+
+.pokercarta47 {
+    background-position: -553px -372px;
+}
+
+.pokercarta48 {
+    background-position: -632px -372px;
+}
+
+.pokercarta49 {
+    background-position: -711px -372px;
+}
+
+.pokercarta50 {
+    background-position: -790px -372px;
+}
+
+.pokercarta51 {
+    background-position: -869px -372px;
+}
+
+.pokercarta52 {
+    background-position: -948px -372px;
+}

@@ -1,16 +1,18 @@
+//Variables
 var nFiles, nColumnes; // Variables per numero de files i columnes
 var ampladaCarta, alcadaCarta; //Variables per la mida de les cartes
-var separacio = 10;
+var separacio = 10; //Separació entre cartes
 
-var cartes = [];
-var girades = [];
-var clics = 0;
-var parellesContador = 0;
-var maxClics;
-var temps = 0;
-var timer = null;
+var cartes = []; //Array per les cartes
+var girades = []; //Array per les cartes que s'han girat en el moment
+var clics = 0; //Contador de clics
+var parellesContador = 0; //Contador de parelles trobades
+var maxClics = 0; //Màxim de clics per aquesta mida
+var temps = 0; //Variable per el temps restant
+var timer = null; //Variable per el temporitzador
 var incrementTemps = 20;
 var ultimaCarta = null;
+var juegoIniciado = false;
 
 const DECK = 1;
 const POKEM = 2;
@@ -25,18 +27,18 @@ var pokerWidth = 79, pokerHeight = 124;
 $(function () {
 
     let mides = ["2x2", "3x4", "4x4", "6x6"];
-    
+
     mides.forEach(mida => {
         let rec = localStorage.getItem("millorrecord" + mida);
         if (rec !== null) {
-            
+
             $("#millorrecord" + mida).text(rec);
         }
     });
 
 
     iniciarJoc(2, 2, getTipoCarta());
-    
+
 
 });
 
@@ -53,6 +55,10 @@ function personalitzat() {
     let columnes = parseInt(prompt("Introdueix el nombre de columnes (2, 4 o 6):"));
 
     if (files >= 2 && files <= 6 && columnes >= 2 && columnes <= 6) {
+        if ((files * columnes) % 2 !== 0) {
+            alert("El nombre total de cartes ha de ser parell. Si us plau, introdueix valors vàlids.");
+            return;
+        }
         iniciarJoc(files, columnes, getTipoCarta());
     } else {
         alert("Entrades no vàlides. Si us plau, introdueix valors entre 2 i 6.");
@@ -60,11 +66,12 @@ function personalitzat() {
 }
 function iniciarJoc(files, columnes, type) {
 
-    cerrarMenu(); 
+    cerrarMenu();
 
+    juegoIniciado = false;
     nFiles = files;
     nColumnes = columnes;
-    switch(type){
+    switch (type) {
         case DECK:
             ampladaCarta = deckWidth;
             alcadaCarta = deckHeight;
@@ -85,10 +92,19 @@ function iniciarJoc(files, columnes, type) {
     $("#contador").text(clics);
     parellesContador = 0;
     $("#contadorParelles").text(parellesContador);
+
+     if (timer !== null) {
+        clearInterval(timer);
+    }
+
+    temps = incrementTemps * (nFiles * nColumnes) / 2;
+    $("#temps").text(temps);
+    timer = null;
+
     generarTauler();
     generarCartes();
     posicionarCartes(type);
-    contarTemps(files, columnes, temps);
+
 
 }
 
@@ -150,10 +166,10 @@ function posicionarCartes(type) {
             "top": ((f - 1) * (alcadaCarta + separacio) + separacio) + "px"
         });
 
-        $(this).find(".davant").addClass(tipoCarta+cartes[index]);
+        $(this).find(".davant").addClass(tipoCarta + cartes[index]);
 
 
-        switch(type){
+        switch (type) {
             case DECK:
                 $(this).find(".davant").removeClass("deck pokemon poker").addClass("deck");
                 $(this).find(".darrera").removeClass("deck pokemon poker").addClass("deck");
@@ -176,6 +192,11 @@ function girarCarta(ultimaCarta) {
     if ($(this).hasClass("carta-girada")) return;
 
     if (girades.length === 2) return;
+
+    if (!juegoIniciado) {
+        juegoIniciado = true;
+        contarTemps(nFiles, nColumnes, temps);
+    }
 
     $(this).addClass("carta-girada");
     girades.push($(this));
@@ -221,75 +242,74 @@ function comprobarPareja() {
 
 function contarTemps(files, columnes, temps) {
 
-    if ($(".carta").on("click")) {
-        if (timer !== null) {
-            clearInterval(timer);
-        }
+    
+    if (timer !== null) return; // evita múltiples timers
 
-        if (files === 2 && columnes === 2) {
-            temps = incrementTemps * columnes;
-        } else if (files === 4 && columnes === 4) {
-            temps = incrementTemps * columnes;
-        } else if (files === 3 && columnes === 4) {
-            temps = incrementTemps * columnes;
-        } else if (files === 6 && columnes === 6) {
-            temps = incrementTemps * columnes;
-        }else{
-            temps = incrementTemps* columnes;
-        }
+    temps = incrementTemps * columnes;
 
+    $("#temps").text(temps);
+
+    timer = setInterval(() => {
+        temps--;
         $("#temps").text(temps);
 
-        timer = setInterval(() => {
-            temps--;
-            $("#temps").text(temps);
+        if (temps <= 0) {
+            clearInterval(timer);
+            alert("Temps acabat!");
+        }
 
-            if (temps <= 0) {
-                clearInterval(timer);
-                alert("Temps acabat!");
-            }
+    }, 1000);
 
-        }, 1000);
-
-    }
 }
 
 function hasguanyat() {
     let totalParelles = (nFiles * nColumnes) / 2;
 
     if (parellesContador === totalParelles) {
-        lanzarConfeti()
+
         clearInterval(timer);
-        
+        lanzarConfeti();
+
         let tempsFinal = parseInt($("#temps").text());
-        
-        setTimeout(function () {
-            alert("HAS GUANYAT EN " + clics + " clics.");
+
+        setTimeout(() => {
+
+            let mensaje = "Has guanyat en " + clics + " clics i " + tempsFinal + " segons.";
+
             verificarRecord(tempsFinal);
-        }, 1500);
-        
+
+            let respuesta = confirm(mensaje + "\n\nVols jugar una altra partida?");
+
+            if (respuesta) {
+                iniciarJoc(nFiles, nColumnes, getTipoCarta());
+            } else {
+                alert("Partida finalitzada.");
+                iniciarJoc(2, 2, getTipoCarta());
+            }
+
+        }, 1000);
     }
 }
 function verificarRecord(tempsRestant) {
-   
+
     let clauRecord = "millorrecord" + nFiles + "x" + nColumnes;
-    
+
     let recordAnterior = localStorage.getItem(clauRecord);
 
-   
+
     if (recordAnterior === null || tempsRestant > Number(recordAnterior)) {
-        
+
         localStorage.setItem(clauRecord, tempsRestant);
-       
+
         $("#millorrecord" + nFiles + "x" + nColumnes).text(tempsRestant);
-        
+
         alert("Nou rècord personal per a " + nFiles + "x" + nColumnes + "!");
     }
 }
 
-function getTipoCarta(){
+function getTipoCarta() {
     let valor = $("input[name='type']:checked").val();
-    switch(valor){
+    switch (valor) {
         case "1":
             return POKEM;
         case "2":
