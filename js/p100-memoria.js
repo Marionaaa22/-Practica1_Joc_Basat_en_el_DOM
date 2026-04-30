@@ -85,19 +85,10 @@ function iniciarJoc(files, columnes, type) {
     $("#contador").text(clics);
     parellesContador = 0;
     $("#contadorParelles").text(parellesContador);
-
-    if (timer !== null) {
-       clearInterval(timer);
-    }
-    
-    timer = null;
-    $("#temps").text(0);
     generarTauler();
     generarCartes();
-
     posicionarCartes(type);
     contarTemps(files, columnes, temps);
-
 
 }
 
@@ -181,10 +172,6 @@ function posicionarCartes(type) {
 }
 
 function girarCarta(ultimaCarta) {
-  
-    if (timer === null) {
-        contarTemps(nFiles, nColumnes);
-    }
 
     if ($(this).hasClass("carta-girada")) return;
 
@@ -234,22 +221,23 @@ function comprobarPareja() {
 
 function contarTemps(files, columnes, temps) {
 
-let seccio = files + "x" + columnes;
-switch (seccio) {
+    if ($(".carta").on("click")) {
+        if (timer !== null) {
+            clearInterval(timer);
+        }
 
+        if (files === 2 && columnes === 2) {
+            temps = incrementTemps * columnes;
+        } else if (files === 4 && columnes === 4) {
+            temps = incrementTemps * columnes;
+        } else if (files === 3 && columnes === 4) {
+            temps = incrementTemps * columnes;
+        } else if (files === 6 && columnes === 6) {
+            temps = incrementTemps * columnes;
+        }else{
+            temps = incrementTemps* columnes;
+        }
 
-case "2x2": 
-temps = incrementTemps * columnes; break;
-case "4x4":
-temps = incrementTemps * columnes; break;
-case "3x4":
-temps = incrementTemps * columnes; break;
-case "6x6": 
-temps = incrementTemps * columnes; break;
-case files+"x"+columens:
-temps = incrementTemps * columnes; break;
-       
-    }
         $("#temps").text(temps);
 
         timer = setInterval(() => {
@@ -264,7 +252,7 @@ temps = incrementTemps * columnes; break;
         }, 1000);
 
     }
-
+}
 
 function hasguanyat() {
     let totalParelles = (nFiles * nColumnes) / 2;
@@ -274,31 +262,14 @@ function hasguanyat() {
         clearInterval(timer);
         
         let tempsFinal = parseInt($("#temps").text());
-
-      
-        let respuesta = confirm("Has guanyat en  " + clics + " clics. ¿Vols resetear la partida?");
-
-       
-        verificarRecord(tempsFinal);
-
-      
-        if (respuesta) {
-       
-            iniciarJoc(nFiles, nColumnes);
-            
-        } else {
-            
-            alert("Partida finalitzada.");
-        }
         
         setTimeout(function () {
             alert("HAS GUANYAT EN " + clics + " clics.");
             verificarRecord(tempsFinal);
         }, 1500);
-
+        
     }
 }
-
 function verificarRecord(tempsRestant) {
    
     let clauRecord = "millorrecord" + nFiles + "x" + nColumnes;
