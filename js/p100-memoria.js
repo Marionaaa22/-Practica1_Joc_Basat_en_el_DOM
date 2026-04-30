@@ -93,7 +93,7 @@ function iniciarJoc(files, columnes, type) {
     parellesContador = 0;
     $("#contadorParelles").text(parellesContador);
 
-     if (timer !== null) {
+    if (timer !== null) {
         clearInterval(timer);
     }
 
@@ -187,6 +187,13 @@ function posicionarCartes(type) {
     });
 }
 
+function reproduirSo(path) {
+    if ($("#soToggle").is(":checked")) {
+        let audio = new Audio(path);
+        audio.play();
+    }
+}
+
 function girarCarta(ultimaCarta) {
 
     if ($(this).hasClass("carta-girada")) return;
@@ -203,9 +210,7 @@ function girarCarta(ultimaCarta) {
 
     clics++;
     $("#contador").text(clics);
-
-    let sonido = new Audio('./so/ClickSound.mp3');
-    sonido.play();
+    reproduirSo('./so/ClickSound.mp3');
 
     if (girades.length === 2) {
         comprobarPareja();
@@ -226,8 +231,7 @@ function comprobarPareja() {
             hasguanyat();
         }, 500);
         // Reproducir un sonido cuando las Cartas se giran
-        let sonido = new Audio('./so/PairSound.mp3');
-        sonido.play();
+        reproduirSo('./so/PairSound.mp3');
         // Incrementar el contador de parejas
         parellesContador++;
         $("#contadorParelles").text(parellesContador);
@@ -242,7 +246,7 @@ function comprobarPareja() {
 
 function contarTemps(files, columnes, temps) {
 
-    
+
     if (timer !== null) return; // evita múltiples timers
 
     temps = incrementTemps * columnes;
