@@ -12,6 +12,16 @@ var timer = null;
 var incrementTemps = 20;
 var ultimaCarta = null;
 
+const DECK = 1;
+const POKEM = 2;
+const POKER = 3;
+
+var tipoCarta;
+var separacioH = 20, separacioV = 20;
+var deckWidth = 80, deckHeight = 120;
+var pokeWidth = 111, pokeHeight = 111;
+var pokerWidth = 79, pokerHeight = 124;
+
 $(function () {
 
     let mides = ["2x2", "3x4", "4x4", "6x6"];
@@ -25,7 +35,8 @@ $(function () {
     });
 
 
-    iniciarJoc(2, 2);
+    iniciarJoc(2, 2, getTipoCarta());
+    
 
 });
 
@@ -37,13 +48,39 @@ function cerrarMenu() {
     document.getElementById("menu").style.display = "none";
 }
 
-function iniciarJoc(files, columnes) {
+function personalitzat() {
+    let files = parseInt(prompt("Introdueix el nombre de files (2, 3, 4 o 6):"));
+    let columnes = parseInt(prompt("Introdueix el nombre de columnes (2, 4 o 6):"));
+
+    if (files >= 2 && files <= 6 && columnes >= 2 && columnes <= 6) {
+        iniciarJoc(files, columnes, getTipoCarta());
+    } else {
+        alert("Entrades no vàlides. Si us plau, introdueix valors entre 2 i 6.");
+    }
+}
+function iniciarJoc(files, columnes, type) {
 
     cerrarMenu(); 
 
     nFiles = files;
     nColumnes = columnes;
-
+    switch(type){
+        case DECK:
+            ampladaCarta = deckWidth;
+            alcadaCarta = deckHeight;
+            tipoCarta = "deck";
+            break;
+        case POKEM:
+            ampladaCarta = pokeWidth;
+            alcadaCarta = pokeHeight;
+            tipoCarta = "pokem";
+            break;
+        case POKER:
+            ampladaCarta = pokerWidth;
+            alcadaCarta = pokerHeight;
+            tipoCarta = "poker";
+            break;
+    }
     clics = 0;
     $("#contador").text(clics);
     parellesContador = 0;
@@ -57,9 +94,10 @@ function iniciarJoc(files, columnes) {
     $("#temps").text(0);
     generarTauler();
     generarCartes();
-    posicionarCartes();
 
-    
+    posicionarCartes(type);
+    contarTemps(files, columnes, temps);
+
 
 }
 
@@ -79,9 +117,6 @@ function generarTauler() {
             $("#tauler").append(carta);
         }
     }
-
-    ampladaCarta = $(".carta").width();
-    alcadaCarta = $(".carta").height();
 
     let ample = nColumnes * (ampladaCarta + separacio);
     let alt = nFiles * (alcadaCarta + separacio);
@@ -110,7 +145,7 @@ function generarCartes() {
     cartes = base.sort(() => Math.random() - 0.5);
 }
 
-function posicionarCartes() {
+function posicionarCartes(type) {
 
     let index = 0;
     $(".carta").each(function () {
@@ -118,11 +153,29 @@ function posicionarCartes() {
         let c = (index % nColumnes) + 1;
 
         $(this).css({
+            "width": ampladaCarta + "px",
+            "height": alcadaCarta + "px",
             "left": ((c - 1) * (ampladaCarta + separacio) + separacio) + "px",
             "top": ((f - 1) * (alcadaCarta + separacio) + separacio) + "px"
         });
 
-        $(this).find(".davant").addClass(cartes[index]);
+        $(this).find(".davant").addClass(tipoCarta+cartes[index]);
+
+
+        switch(type){
+            case DECK:
+                $(this).find(".davant").removeClass("deck pokemon poker").addClass("deck");
+                $(this).find(".darrera").removeClass("deck pokemon poker").addClass("deck");
+                break
+            case POKEM:
+                $(this).find(".davant").removeClass("deck pokemon poker").addClass("pokemon");
+                $(this).find(".darrera").removeClass("deck pokemon poker").addClass("pokemon");
+                break;
+            case POKER:
+                $(this).find(".davant").removeClass("deck pokemon poker").addClass("poker");
+                $(this).find(".darrera").removeClass("deck pokemon poker").addClass("poker");
+                break;
+        }
         index++;
     });
 }
@@ -181,8 +234,6 @@ function comprobarPareja() {
 
 function contarTemps(files, columnes, temps) {
 
-   
-
 let seccio = files + "x" + columnes;
 switch (seccio) {
 
@@ -199,7 +250,6 @@ case files+"x"+columens:
 temps = incrementTemps * columnes; break;
        
     }
-
         $("#temps").text(temps);
 
         timer = setInterval(() => {
@@ -220,6 +270,7 @@ function hasguanyat() {
     let totalParelles = (nFiles * nColumnes) / 2;
 
     if (parellesContador === totalParelles) {
+        lanzarConfeti()
         clearInterval(timer);
         
         let tempsFinal = parseInt($("#temps").text());
@@ -239,6 +290,12 @@ function hasguanyat() {
             
             alert("Partida finalitzada.");
         }
+        
+        setTimeout(function () {
+            alert("HAS GUANYAT EN " + clics + " clics.");
+            verificarRecord(tempsFinal);
+        }, 1500);
+
     }
 }
 
@@ -259,4 +316,45 @@ function verificarRecord(tempsRestant) {
     }
 }
 
+function getTipoCarta(){
+    let valor = $("input[name='type']:checked").val();
+    switch(valor){
+        case "1":
+            return POKEM;
+        case "2":
+            return DECK;
+        default:
+            return POKER;
+    }
 
+}
+
+
+function lanzarConfeti() {
+
+    let duration = 3000;
+    let end = Date.now() + duration;
+
+    let interval = setInterval(function () {
+
+        if (Date.now() > end) {
+            clearInterval(interval);
+            return;
+        }
+
+        confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 90,
+            origin: { x: 0, y: 1 }
+        });
+
+        confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 90,
+            origin: { x: 1, y: 1 }
+        });
+
+    }, 250);
+}
