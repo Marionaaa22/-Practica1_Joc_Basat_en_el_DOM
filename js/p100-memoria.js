@@ -35,7 +35,8 @@ $(function () {
     });
 
 
-    iniciarJoc(2, 2, POKEM);
+    iniciarJoc(2, 2, getTipoCarta());
+    
 
 });
 
@@ -52,12 +53,10 @@ function personalitzat() {
     let columnes = parseInt(prompt("Introdueix el nombre de columnes (2, 4 o 6):"));
 
     if (files >= 2 && files <= 6 && columnes >= 2 && columnes <= 6) {
-        iniciarJoc(files, columnes);
+        iniciarJoc(files, columnes, getTipoCarta());
     } else {
         alert("Entrades no vàlides. Si us plau, introdueix valors entre 2 i 6.");
     }
-
-    iniciarJoc(2, 2,POKEM);
 }
 function iniciarJoc(files, columnes, type) {
 
@@ -65,22 +64,23 @@ function iniciarJoc(files, columnes, type) {
 
     nFiles = files;
     nColumnes = columnes;
-
-    if (type == DECK) {
-        ampladaCarta = deckWidth;
-        alcadaCarta = deckHeight;
-        tipoCarta = "deck";
-
-    } else if (type == POKEM) {
-        ampladaCarta = pokeWidth;
-        alcadaCarta = pokeHeight;
-        tipoCarta = "pokem";
-    }else if (type == POKER) {
-        ampladaCarta = pokerWidth;
-        alcadaCarta = pokerHeight;
-        tipoCarta = "poker";
+    switch(type){
+        case DECK:
+            ampladaCarta = deckWidth;
+            alcadaCarta = deckHeight;
+            tipoCarta = "deck";
+            break;
+        case POKEM:
+            ampladaCarta = pokeWidth;
+            alcadaCarta = pokeHeight;
+            tipoCarta = "pokem";
+            break;
+        case POKER:
+            ampladaCarta = pokerWidth;
+            alcadaCarta = pokerHeight;
+            tipoCarta = "poker";
+            break;
     }
-
     clics = 0;
     $("#contador").text(clics);
     parellesContador = 0;
@@ -151,19 +151,22 @@ function posicionarCartes(type) {
         });
 
         $(this).find(".davant").addClass(tipoCarta+cartes[index]);
-        if (type == DECK) {
-            $(this).find(".davant").removeClass("deck pokemon poker").addClass("deck");
-            $(this).find(".darrera").removeClass("deck pokemon poker").addClass("deck");
+
+
+        switch(type){
+            case DECK:
+                $(this).find(".davant").removeClass("deck pokemon poker").addClass("deck");
+                $(this).find(".darrera").removeClass("deck pokemon poker").addClass("deck");
+                break
+            case POKEM:
+                $(this).find(".davant").removeClass("deck pokemon poker").addClass("pokemon");
+                $(this).find(".darrera").removeClass("deck pokemon poker").addClass("pokemon");
+                break;
+            case POKER:
+                $(this).find(".davant").removeClass("deck pokemon poker").addClass("poker");
+                $(this).find(".darrera").removeClass("deck pokemon poker").addClass("poker");
+                break;
         }
-        else if (type == POKEM) {
-            $(this).find(".davant").removeClass("deck pokemon poker").addClass("pokemon");
-            $(this).find(".darrera").removeClass("deck pokemon poker").addClass("pokemon");
-        }
-        else if (type == POKER) {
-            $(this).find(".davant").removeClass("deck pokemon poker").addClass("poker");
-            $(this).find(".darrera").removeClass("deck pokemon poker").addClass("poker");
-        }
-    
         index++;
     });
 }
@@ -255,13 +258,16 @@ function hasguanyat() {
     let totalParelles = (nFiles * nColumnes) / 2;
 
     if (parellesContador === totalParelles) {
+        lanzarConfeti()
         clearInterval(timer);
         
         let tempsFinal = parseInt($("#temps").text());
-        alert("HAS GUANYAT EN " + clics + " clics.");
-       
-    
-    verificarRecord(tempsFinal);
+        
+        setTimeout(function () {
+            alert("HAS GUANYAT EN " + clics + " clics.");
+            verificarRecord(tempsFinal);
+        }, 1500);
+        
     }
 }
 function verificarRecord(tempsRestant) {
@@ -281,4 +287,45 @@ function verificarRecord(tempsRestant) {
     }
 }
 
+function getTipoCarta(){
+    let valor = $("input[name='type']:checked").val();
+    switch(valor){
+        case "1":
+            return POKEM;
+        case "2":
+            return DECK;
+        default:
+            return POKER;
+    }
 
+}
+
+
+function lanzarConfeti() {
+
+    let duration = 3000;
+    let end = Date.now() + duration;
+
+    let interval = setInterval(function () {
+
+        if (Date.now() > end) {
+            clearInterval(interval);
+            return;
+        }
+
+        confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 90,
+            origin: { x: 0, y: 1 }
+        });
+
+        confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 90,
+            origin: { x: 1, y: 1 }
+        });
+
+    }, 250);
+}
